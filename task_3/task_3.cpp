@@ -17,7 +17,7 @@ int main()
 	int year;
 	cin >> year;
 
-	if (year % 400 == 0 || year % 100 != 0 && year % 4 == 0)
+	if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
 		cout << "Это высокосный год." << endl;
 	else
 		cout << "Это не высокосный год" << endl;

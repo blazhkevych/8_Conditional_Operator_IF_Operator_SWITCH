@@ -11,6 +11,16 @@
 - время (часы, минуты, секунды). Часы, минуты, секунды проверить по отдельности.
 */
 
+/*
+Правильно (дата (день, месяц, год)):
+31.05.2001 => тест пройден.
+29.02.2000 (високосный год) => тест пройден.
+
+Не правильно (дата (день, месяц, год)):
+31.04.2001 => тест пройден.
+29.02.2001 (не високосный год) => тест пройден.
+*/
+
 #include<iostream>
 
 using namespace std;
@@ -24,51 +34,81 @@ int main()
 
 	enum MyEnum
 	{
-		January = 1, // Январь 
-		February = 2, // Февраль 
-		March = 3, // Март 
-		April = 4, // Апрель 
-		May = 5, // Май 
-		June = 6, // Июнь 
-		July = 7, // Июль 
-		August = 8, // Август 
-		September = 9, // Сентябрь 
-		October = 10, // Октябрь 
-		November = 11, // Ноябрь 
-		December = 12 // Декабрь 
+		January = 1, // Январь, 31 день
+		February = 2, // Февраль, 28 дней (В високосные годы вводится дополнительный день — 29 февраля.)
+		March = 3, // Март, 31 день 
+		April = 4, // Апрель, 30 дней 
+		May = 5, // Май, 31 день 
+		June = 6, // Июнь, 30 дней 
+		July = 7, // Июль, 31 день 
+		August = 8, // Август, 31 день 
+		September = 9, // Сентябрь, 30 дней 
+		October = 10, // Октябрь, 31 день 
+		November = 11, // Ноябрь, 30 дней 
+		December = 12 // Декабрь, 31 день 
 	};
 
-	cout << "Введите год:" << endl;
+	cout << "Введите год ( > 1 ):" << endl;
 	cin >> date_year;
-	if (date_year < 1)
-		cout << "Вы ввели не корректный год" << endl;
-
-	cout << "Введите месяц:" << endl;
-	cin >> date_month;
-	if (date_month > 0 && date_month < 13)
-		cout << "Вы ввели не корректные часы" << endl;
-
-	cout << "Введите день:" << endl;
-	cin >> date_day;
-
-
-	cout << "Введите часы:" << endl;
-	cin >> time_hours;
-	if (time_hours < 0 || time_hours > 59)
-		cout << "Вы ввели не корректные часы" << endl;
-
-	cout << "Введите минуты:" << endl;
-	cin >> time_minutes;
-	if (time_minutes < 0 || time_minutes > 59)
-		cout << "Вы ввели не корректные минуты" << endl;
-
-	cout << "Введите секунды:" << endl;
-	cin >> time_seconds;
-	if (time_seconds < 0 || time_seconds > 59)
-		cout << "Вы ввели не корректные секунды" << endl;
-
-
-
+	if (date_year > 0)
+	{
+		cout << "Введите месяц ( > 0 и < 13):" << endl;
+		cin >> date_month;
+		if (date_month > 0 && date_month < 13)
+		{
+			cout << "Введите день ( > 0 и < 32):" << endl;
+			cin >> date_day;
+			if (
+				((date_year % 400 == 0 || (date_year % 100 != 0 && date_year % 4 == 0))
+					&& (date_month == February) && (date_day == 29)) // если 29 февраля в високосном году
+				|| ((date_year % 400 == 0 || (date_year % 100 != 0 && date_year % 4 == 0))
+					&& (date_day == February) && (date_day > 0 && date_day < 29)) // если 1-28 февраля, не високосный год
+				|| ((date_month == January
+					|| date_month == March
+					|| date_month == May
+					|| date_month == July
+					|| date_month == August
+					|| date_month == October
+					|| date_month == December) && (date_day > 0 && date_day < 32)) // все месяца, в которых 31 день
+				|| ((date_month == April
+					|| date_month == June
+					|| date_month == September
+					|| date_month == November) && (date_day > 0 && date_day < 31)) // все месяца, в которых 30 дней
+				)
+			{
+				cout << "Введите часы ( > -1 и < 24 ):" << endl;
+				cin >> time_hours;
+				if (time_hours > -1 && time_hours < 24)
+				{
+					cout << "Введите минуты ( > -1 и < 60 ):" << endl;
+					cin >> time_minutes;
+					if (time_minutes > -1 && time_minutes < 60)
+					{
+						cout << "Введите секунды( > 0 и < 60 ):" << endl;
+						cin >> time_seconds;
+						if (time_seconds > 0 && time_seconds < 60)
+						{
+							cout << "Все введённые значения корректны."
+								<< "\nДата: " << date_day << '.' << date_month << '.' << date_year
+								<< "\nВремя: " << time_hours << ':' << time_minutes << ':' << time_seconds << endl;
+						}
+						else
+							cout << "Введите корректные секунды." << endl;
+					}
+					else
+						cout << "Введите корректные минуты." << endl;
+				}
+				else
+					cout << "Введите корректные часы." << endl;
+			}
+			else
+				cout << "Введите корректный день." << endl;
+		}
+		else
+			cout << "Введите корректный месяц." << endl;
+	}
+	else
+		cout << "Введите корректный год." << endl;
 
 	return 0;
 }
