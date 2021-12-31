@@ -15,12 +15,11 @@
 Правильно (дата (день, месяц, год)):
 31.05.2001 => тест пройден.
 29.02.2000 (високосный год) => тест пройден.
+2001.2.28 (обычный год)  => тест пройден
 
 Не правильно (дата (день, месяц, год)):
 31.04.2001 => тест пройден.
 29.02.2001 (не високосный год) => тест пройден.
-
-2000.2.27  => тест не пройден
 */
 
 #include<iostream>
@@ -64,7 +63,9 @@ int main()
 				((date_year % 400 == 0 || (date_year % 100 != 0 && date_year % 4 == 0))
 					&& (date_month == February) && (date_day == 29)) // если 29 февраля в високосном году
 				|| ((date_year % 400 == 0 || (date_year % 100 != 0 && date_year % 4 == 0))
-					&& (date_month == February) && (date_day > 0 && date_day < 29)) // если 1-28 февраля, не високосный год
+					&& (date_month == February) && (date_day > 0 && date_day < 29)) // если 1-28 февраля, високосный год
+				|| (!(date_year % 400 == 0 || (date_year % 100 != 0 && date_year % 4 == 0))
+					&& (date_month == February) && (date_day > 0 && date_day < 29)) // если 1-28 февраля, обычный год
 				|| ((date_month == January
 					|| date_month == March
 					|| date_month == May
@@ -91,8 +92,12 @@ int main()
 						if (time_seconds > 0 && time_seconds < 60)
 						{
 							cout << "Все введённые значения корректны."
-								<< "\nДата: " << date_day << '.' << date_month << '.' << date_year
-								<< "\nВремя: " << time_hours << ':' << time_minutes << ':' << time_seconds << endl;
+								<< "\nДата: " << date_day << '.' << date_month << '.' << date_year;
+							if (date_year % 400 == 0 || (date_year % 100 != 0 && date_year % 4 == 0))
+								cout << " (високосный год)." << endl;
+							else
+								cout << " (обычный год)." << endl;
+							cout << "\nВремя: " << time_hours << ':' << time_minutes << ':' << time_seconds << endl;
 						}
 						else
 							cout << "Введите корректные секунды." << endl;
