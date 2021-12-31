@@ -19,6 +19,8 @@
 Не правильно (дата (день, месяц, год)):
 31.04.2001 => тест пройден.
 29.02.2001 (не високосный год) => тест пройден.
+
+2000.2.27  => тест не пройден
 */
 
 #include<iostream>
@@ -32,7 +34,7 @@ int main()
 	int date_day{ 0 }, date_month{ 0 }, date_year{ 0 }, // дата (день, месяц, год)
 		time_hours{ 0 }, time_minutes{ 0 }, time_seconds{ 0 }; // время (часы, минуты, секунды)
 
-	enum MyEnum
+	enum Months
 	{
 		January = 1, // Январь, 31 день
 		February = 2, // Февраль, 28 дней (В високосные годы вводится дополнительный день — 29 февраля.)
@@ -62,7 +64,7 @@ int main()
 				((date_year % 400 == 0 || (date_year % 100 != 0 && date_year % 4 == 0))
 					&& (date_month == February) && (date_day == 29)) // если 29 февраля в високосном году
 				|| ((date_year % 400 == 0 || (date_year % 100 != 0 && date_year % 4 == 0))
-					&& (date_day == February) && (date_day > 0 && date_day < 29)) // если 1-28 февраля, не високосный год
+					&& (date_month == February) && (date_day > 0 && date_day < 29)) // если 1-28 февраля, не високосный год
 				|| ((date_month == January
 					|| date_month == March
 					|| date_month == May
